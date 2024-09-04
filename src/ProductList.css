@@ -159,6 +159,7 @@ body {
     justify-content: center;
     width: 650px;
     font-size: 19px;
+    object-fit: cover;
 }
 .cart{
     color: white;
