@@ -19,10 +19,10 @@ export const CartSlice = createSlice({
         state.items = state.items.filter(item => item.id !== action.payload);
     },
     updateQuantity: (state, action) => {
-        const {name,quantity} = action.payload.name;
+        const {name,quantityChange } = action.payload;
         const itemToUpdate = state.items.find(item => item.name === name);
         if(itemToUpdate) {
-            itemToUpdate.quantity = quantity;
+            itemToUpdate.quantity = Math.max(1, itemToUpdate.quantity + quantityChange);
         }
     
     },
