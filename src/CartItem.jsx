@@ -1,10 +1,11 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addItem, removeItem, updateQuantity } from './CartSlice';
+import { addItem, removeItem, updateQuantity, selectDisabledProducts } from './CartSlice';
 import './CartItem.css';
 
 const CartItem = ({ onContinueShopping }) => {
   const cart = useSelector(state => state.cart.items);
+  const disabledItems = useSelector(selectDisabledProducts);
   const dispatch = useDispatch();
 
   // Calculate total amount for all products in the cart
@@ -33,14 +34,29 @@ const CartItem = ({ onContinueShopping }) => {
   };
 
   const handleDecrement = (item) => {
-    dispatch(updateQuantity({ name: item.name, quantityChange : -1 }));
+    if (item.quantity > 1) {
+      // Decrease quantity if more than 1
+      dispatch(updateQuantity({ name: item.name, quantityChange: -1 }));
+    } else {
+      // Remove item if quantity is 1
+      dispatch(removeItem({ name: item.name }));
+      dispatch(resetDisabledProducts()); // Reset disabled products
+    }
   };
 
   const handleRemove = (item) => {
+    dispatch(removeItem({ name: item.name }));
+    dispatch(resetDisabledProducts()); // Reset disabled products
   };
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
+    // Ensure cost and quantity are numbers
+    const cost = parseFloat(item.cost) || 0;
+    const quantity = parseInt(item.quantity, 10) || 0;
+
+    // Calculate the total cost for the specific item
+    return cost * quantity;
   };
 
   const handleCheckoutShopping = (e) => {
