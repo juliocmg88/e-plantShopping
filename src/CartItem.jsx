@@ -1,11 +1,11 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addItem, removeItem, updateQuantity, selectDisabledProducts } from './CartSlice';
+import { removeItem, updateQuantity, selectDisabledProducts,resetDisabledProducts } from './CartSlice';
 import './CartItem.css';
 
 const CartItem = ({ onContinueShopping }) => {
   const cart = useSelector(state => state.cart.items);
-  const disabledItems = useSelector(selectDisabledProducts);
+  const disabledProducts = useSelector(selectDisabledProducts);
   const dispatch = useDispatch();
 
   // Calculate total amount for all products in the cart
@@ -40,13 +40,11 @@ const CartItem = ({ onContinueShopping }) => {
     } else {
       // Remove item if quantity is 1
       dispatch(removeItem({ name: item.name }));
-      dispatch(resetDisabledProducts()); // Reset disabled products
     }
   };
 
   const handleRemove = (item) => {
-    dispatch(removeItem({ name: item.name }));
-    dispatch(resetDisabledProducts()); // Reset disabled products
+    dispatch(removeItem({ name: item.name })); // This will update the Redux state to re-enable the Add to Cart button
   };
 
   // Calculate total cost based on quantity for an item

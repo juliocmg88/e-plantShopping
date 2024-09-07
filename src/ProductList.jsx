@@ -10,7 +10,7 @@ function ProductList() {
     const dispatch = useDispatch();
     const [disabledProducts, setDisabledProducts] = useState([]);
     const totalItems = useSelector(selectTotalItems);
-    const disabledItems = useSelector(selectDisabledProducts);
+    //const disabledItems = useSelector(selectDisabledProducts);
     const plantsArray = [
         {
             category: "Air Purifying Plants",
@@ -259,13 +259,11 @@ const handlePlantsClick = (e) => {
         ...prevState,
         [product.name]: true,
     }));
-    /*
+    
     setDisabledProducts((prevDisabledProducts) => [
         ...prevDisabledProducts, 
         product.name
     ]); // Mark the product as disabled
-    */
-    dispatch(setDisabledProducts((disabledItems) =>[...disabledItems, product.name]));
   };
     return (
         <div>
